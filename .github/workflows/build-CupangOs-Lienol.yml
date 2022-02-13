@@ -1,8 +1,6 @@
 #========================================================================================================================
-# https://github.com/ophub/amlogic-s9xxx-openwrt
-# Description: Automatically Build OpenWrt for Amlogic s9xxx tv box
 # Cron: min (0 - 59) / hour (0 - 23) / day of month (1 - 31) / month (1 - 12) / day of week (0 - 6)(Sunday - Saturday)
-# Source code repository: https://github.com/openwrt/openwrt / Branch: 21.02
+# Source code repository: https://github.com/Lienol/openwrt / Branch: 21.02
 #========================================================================================================================
 
 name: Build CupangOs-Lienol-21.02
