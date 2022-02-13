@@ -1,24 +1,24 @@
 #========================================================================================================================
 # Cron: min (0 - 59) / hour (0 - 23) / day of month (1 - 31) / month (1 - 12) / day of week (0 - 6)(Sunday - Saturday)
-# Source code repository: https://github.com/Lienol/openwrt / Branch: 21.02
+# Source code repository: https://github.com/openwrt/openwrt / Branch: 21.02
 #========================================================================================================================
 
-name: Build CupangOs-Lienol-21.02
+name: Build CupangOs-Lienol
 
 on:
   repository_dispatch:
   workflow_dispatch:
-  schedule:
-    - cron: '0 9 * * 2'
+  #schedule:
+    #- cron: '0 17 * * 0'
 
 env:
   REPO_URL: https://github.com/Lienol/openwrt
-  REPO_BRANCH: openwrt-21.02
+  REPO_BRANCH: 21.02
   FEEDS_CONF: cupangOs/lienol/feeds.conf.default
   CONFIG_FILE: cupangOs/lienol/.config
   DIY_P1_SH: cupangOs/lienol/diy-part1.sh
   DIY_P2_SH: cupangOs/lienol/diy-part2.sh
-  TZ: Asia/Jakarta
+  #TZ: Asia/Jakarta
 
 jobs:
   build:
@@ -38,7 +38,7 @@ jobs:
         sudo -E apt-get -qq install $(curl -fsSL git.io/ubuntu-2004-openwrt)
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
-        sudo timedatectl set-timezone "$TZ"
+        sudo timedatectl set-timezone Asia/Jakarta
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
         echo "COMPILE_STARTINGTIME=$(date +"%Y.%m.%d.%H%M")" >> $GITHUB_ENV
@@ -52,8 +52,7 @@ jobs:
 
     - name: Load custom feeds
       run: |
-        #[ -e $FEEDS_CONF ] && cp -f $FEEDS_CONF openwrt/feeds.conf.default
-        wget -O openwrt/feeds.conf.default https://raw.githubusercontent.com/thecupangin/CupangOs-LEDE/main/cupangOs/lienol/feeds.conf.default
+        [ -e $FEEDS_CONF ] && cp -f $FEEDS_CONF openwrt/feeds.conf.default
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
@@ -81,7 +80,7 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
-    - name: Compile the firmware
+    - name: Compile CupangOs firmware
       id: compile
       run: |
         cd openwrt
@@ -99,7 +98,7 @@ jobs:
         [ -d openwrt-armvirt ] || mkdir -p openwrt-armvirt
         cp -f openwrt/bin/targets/*/*/*.tar.gz openwrt-armvirt/ && sync
         sudo chmod +x make
-        sudo ./make -d -b s905x -k 5.4.178
+        sudo ./make -d -b s905x -k 5.4.178_5.10.99.5.15.22
         [ -d ipk ] || mkdir -p ipk
         cp -rf $(find openwrt/bin/packages/ -type f -name "*.ipk") ipk/ && sync
         sudo tar -czf ipk.tar.gz ipk && mv -f ipk.tar.gz out/ && sync
@@ -111,17 +110,15 @@ jobs:
       uses: ncipollo/release-action@v1
       if: steps.build.outputs.status == 'success' && !cancelled()
       with:
-        tag: CupangOs-Lienol-21.02-${{ env.PACKAGED_OUTPUTDATE }}
+        tag: CupangOs-Lienol-${{ env.PACKAGED_OUTPUTDATE }}
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
         allowUpdates: true
         token: ${{ secrets.GITHUB_TOKEN }}
         body: |
-          CupangOs-Lienol-21.02 Firmware for HG680P & B860H
+          CupangOs-Lienol Firmware for HG680P & B860H
           * Firmware information
           Default IP: 192.168.1.1
           Default username: root
-          Default password: none
-          Default WIFI name: CupangOs
+          Default password: root
+          Default WIFI name: cupangOs
           Default WIFI password: none
-          Install to EMMC: Login to OpenWrt → System → Amlogic Service → Install OpenWrt
-
