@@ -11,18 +11,12 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: 'Select Branch [ official / lede ]'
+        description: 'Select Branch [ lynx / lede ]'
         required: false
         default: 'lede'
-  #schedule:
-    #- cron: '0 22 * * *'
 
 env:
-  UPLOAD_FIRMWARE: false
-  UPLOAD_RELEASE: true
-  UPLOAD_WETRANSFER: false
-  RECENT_LASTEST: 3
-  TZ: Asia/Shanghai
+  TZ: Asia/Jakarta
 
 jobs:
   build:
@@ -44,7 +38,7 @@ jobs:
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
         # Input value validation
-        ARR_BRANCH=("official" "lede")
+        ARR_BRANCH=("lynx" "lede")
         if [[ -n "${{ github.event.inputs.branch }}" && -n "$(echo "${ARR_BRANCH[@]}" | grep -w "${{ github.event.inputs.branch }}")" ]]; then
            RELEASES_BRANCH=${{ github.event.inputs.branch }}
         else
@@ -58,39 +52,27 @@ jobs:
       if: (!cancelled())
       run: |
         [ -d openwrt-armvirt ] || mkdir -p openwrt-armvirt
-        curl -s "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases" | grep -o "openwrt_s9xxx_${{ env.RELEASES_BRANCH }}.*/openwrt-armvirt-.*.tar.gz" | head -n 1 > DOWNLOAD_ARMVIRT
+        curl -s "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases" | grep -o "ImmortalWrt-21.02-${{ env.RELEASES_BRANCH }}-*./immortalwrt-armvirt-.*.tar.gz" | head -n 1 > DOWNLOAD_ARMVIRT
         [ -s DOWNLOAD_ARMVIRT ] && wget -q -P openwrt-armvirt https://github.com/${GITHUB_REPOSITORY}/releases/download/$(cat DOWNLOAD_ARMVIRT)
         sudo chmod +x make
-        sudo ./make -d -b s905x3_s905x2_s905x_s905w_s905d_s922x_s912 -k 5.10.70_5.4.150
-        curl -s "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases" | grep -o "openwrt_s9xxx_${{ env.RELEASES_BRANCH }}.*/ipk.tar.gz" | head -n 1 > DOWNLOAD_IPK
+        sudo ./make -d -b s922x_s905x3_s905d -k 5.10.90_5.4.170
+        sudo ./make -d -b s905x -k 5.4.170
+        curl -s "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases" | grep -o "ImmortalWrt-21.02-${{ env.RELEASES_BRANCH }}-.*/ipk.tar.gz" | head -n 1 > DOWNLOAD_IPK
         [ -s DOWNLOAD_IPK ] && wget -q -P out https://github.com/${GITHUB_REPOSITORY}/releases/download/$(cat DOWNLOAD_IPK)
         echo "PACKAGED_OUTPUTPATH=${PWD}/out" >> $GITHUB_ENV
         echo "PACKAGED_OUTPUTDATE=$(date +"%Y.%m.%d.%H%M")" >> $GITHUB_ENV
         echo "::set-output name=status::success"
 
-    - name: Upload artifact to Actions
-      uses: kittaakos/upload-artifact-as-is@master
-      if: steps.build.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
-      with:
-        path: ${{ env.PACKAGED_OUTPUTPATH }}/
-
-    - name: Upload OpenWrt Firmware to WeTransfer
-      if: steps.build.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'true' && !cancelled()
-      run: |
-        curl -fsSL git.io/file-transfer | sh
-        ./transfer wet -s -p 16 --no-progress ${{ env.PACKAGED_OUTPUTPATH }}/{openwrt_s9xxx_*,openwrt_n1_*} 2>&1 | tee wetransfer.log
-        echo "WET_URL=$(cat wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_ENV
-
     - name: Upload OpenWrt Firmware to Release
       uses: ncipollo/release-action@v1
-      if: steps.build.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: steps.build.outputs.status == 'success' && !cancelled()
       with:
         tag: openwrt_s9xxx_${{ env.RELEASES_BRANCH }}_${{ env.PACKAGED_OUTPUTDATE }}
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
         allowUpdates: true
         token: ${{ secrets.GITHUB_TOKEN }}
         body: |
-          This is OpenWrt firmware for Amlogic S9xxx STB
+          This is OpenWrt firmware for Amlogic s9xxx tv box
           * Firmware information
           Default IP: 192.168.1.1
           Default username: root

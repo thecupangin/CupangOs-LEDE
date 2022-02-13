@@ -1,6 +1,6 @@
 name: 'Use ophub script to package Armvirt as OpenWrt'
 author: 'ophub'
-description: 'Package Armvirt as OpenWrt. Support Amlogic S9xxx STB.'
+description: 'Package Armvirt as OpenWrt. Support Amlogic s9xxx tv box.'
 inputs:
   mode:
     description: 'Choose script.'
@@ -13,17 +13,17 @@ inputs:
   amlogic_kernel:
     description: 'Choose kernel.'
     required: false
-    default: '5.10.70_5.4.150'
+    default: '5.10.99_5.4.178'
   auto_kernel:
     description: 'Auto use the latest kernel.'
     required: false
     default: 'true'
   amlogic_size:
-    description: 'Choose root size.'
+    description: 'Choose rootfs size.'
     required: false
     default: '1024'
   armvirt64_path:
-    description: 'Choose armvirt path.'
+    description: 'Choose armvirt64 file path.'
     required: false
     default: 'openwrt/bin/targets/*/*/*.tar.gz'
 

@@ -9,9 +9,9 @@ THIS_SCRIPT="sysinfo"
 MOTD_DISABLE=""
 
 SHOW_IP_PATTERN="^[ewr].*|^br.*|^lt.*|^umts.*"
-
 DATA_STORAGE=/userdisk/data
 MEDIA_STORAGE=/userdisk/snail
+EXT_STORAGE=/mnt/hdd
 
 [[ -f /etc/default/motd ]] && . /etc/default/motd
 for f in $MOTD_DISABLE; do
@@ -19,21 +19,20 @@ for f in $MOTD_DISABLE; do
 done
 
 # don't edit below here
-function display()
-{
+function display() {
 	# $1=name $2=value $3=red_limit $4=minimal_show_limit $5=unit $6=after $7=acs/desc{
 	# battery red color is opposite, lower number
 	if [[ "$1" == "Battery" ]]; then
-		local great="<";
+		local great="<"
 	else
-		local great=">";
+		local great=">"
 	fi
-	if [[ -n "$2" && "$2" > "0" && (( "${2%.*}" -ge "$4" )) ]]; then
+	if [[ -n "$2" && "$2" > "0" && (("${2%.*}" -ge "$4")) ]]; then
 		printf "%-14s%s" "$1:"
 		if awk "BEGIN{exit ! ($2 $great $3)}"; then
-			echo -ne "\e[0;91m $2";
+			echo -ne "\e[0;91m $2"
 		else
-			echo -ne "\e[0;92m $2";
+			echo -ne "\e[0;92m $2"
 		fi
 		printf "%-1s%s\x1B[0m" "$5"
 		printf "%-11s%s\t" "$6"
@@ -41,9 +40,7 @@ function display()
 	fi
 } # display
 
-
-function get_ip_addresses()
-{
+function get_ip_addresses() {
 	local ips=()
 	for f in /sys/class/net/*; do
 		local intf=$(basename $f)
@@ -59,9 +56,7 @@ function get_ip_addresses()
 	echo "${ips[@]}"
 } # get_ip_addresses
 
-
-function storage_info()
-{
+function storage_info() {
 	# storage info
 	RootInfo=$(df -h /)
 	root_usage=$(awk '/\// {print $(NF-1)}' <<<${RootInfo} | sed 's/%//g')
@@ -83,17 +78,23 @@ function storage_info()
 		data_usage=$(awk '/\// {print $(NF-1)}' <<<${StorageInfo} | sed 's/%//g')
 		data_total=$(awk '/\// {print $(NF-4)}' <<<${StorageInfo})
 	fi
+	
+	StorageInfo=$(df -h $EXT_STORAGE 2>/dev/null | grep $EXT_STORAGE)
+	if [[ -n "${StorageInfo}" && ${RootInfo} != *$EXT_STORAGE* ]]; then
+		hdd_usage=$(awk '/\// {print $(NF-1)}' <<<${StorageInfo} | sed 's/%//g')
+		hdd_total=$(awk '/\// {print $(NF-4)}' <<<${StorageInfo})
+	fi	
+	
 } # storage_info
 
-function get_data_storage()
-{
-    if which lsblk >/dev/null;then
-	root_name=$(lsblk -l -o NAME,MOUNTPOINT | awk '$2~/^\/$/ {print $1'})
-	mmc_name=$(echo $root_name | awk '{print substr($1,1,length($1)-2);}')
-	if echo $mmc_name | grep mmcblk >/dev/null;then
-	    DATA_STORAGE="/mnt/${mmc_name}p4"
+function get_data_storage() {
+	if which lsblk >/dev/null; then
+		root_name=$(lsblk -l -o NAME,MOUNTPOINT | awk '$2~/^\/$/ {print $1}')
+		mmc_name=$(echo $root_name | awk '{print substr($1,1,length($1)-2);}')
+		if echo $mmc_name | grep mmcblk >/dev/null; then
+			DATA_STORAGE="/mnt/${mmc_name}p4"
+		fi
 	fi
-    fi
 }
 
 # query various systems and send some stuff to the background for overall faster execution.
@@ -101,17 +102,17 @@ function get_data_storage()
 ip_address=$(get_ip_addresses &)
 get_data_storage
 storage_info
-critical_load=$(( 1 + $(grep -c processor /proc/cpuinfo) / 2 ))
+critical_load=$((1 + $(grep -c processor /proc/cpuinfo) / 2))
 
 # get uptime, logged in users and load in one take
-if [ -x /usr/bin/cpustat ];then
-    time=$(/usr/bin/cpustat -u)
-    load=$(/usr/bin/cpustat -l)
+if [ -x /usr/bin/cpustat ]; then
+	time=$(/usr/bin/cpustat -u)
+	load=$(/usr/bin/cpustat -l)
 else
-    UptimeString=$(uptime | tr -d ',')
-    time=$(awk -F" " '{print $3" "$4}' <<<"${UptimeString}")
-    load="$(awk -F"average: " '{print $2}'<<<"${UptimeString}")"
-    case ${time} in
+	UptimeString=$(uptime | tr -d ',')
+	time=$(awk -F" " '{print $3" "$4}' <<<"${UptimeString}")
+	load="$(awk -F"average: " '{print $2}' <<<"${UptimeString}")"
+	case ${time} in
 	1:*) # 1-2 hours
 		time=$(awk -F" " '{print $3" h"}' <<<"${UptimeString}")
 		;;
@@ -123,7 +124,7 @@ else
 		time=$(awk -F" " '{print $5}' <<<"${UptimeString}")
 		time="$days "$(awk -F":" '{print $1"h "$2"m"}' <<<"${time}")
 		;;
-    esac
+	esac
 fi
 
 # memory and swap
@@ -136,56 +137,67 @@ swap_total=$(awk '{print $(2)}' <<<${swap_info})
 
 if grep -q "ipq40xx" "/etc/openwrt_release"; then
 	cpu_temp="$(sensors | grep -Eo '\+[0-9]+.+C' | sed ':a;N;$!ba;s/\n/ /g;s/+//g')"
-else
+elif [ -f "/sys/class/thermal/thermal_zone0/temp" ]; then
 	cpu_temp="$(awk '{ printf("%.1f °C", $0 / 1000) }' /sys/class/thermal/thermal_zone0/temp)"
+elif [ -f "/sys/class/hwmon/hwmon0/temp1_input" ]; then
+	cpu_temp="$(awk '{ printf("%.1f °C", $0 / 1000) }' /sys/class/hwmon/hwmon0/temp1_input)"
+else
+	cpu_temp="50.0 °C"
 fi
 cpu_tempx=$(echo $cpu_temp | sed 's/°C//g')
 
-if [ -x /usr/bin/cpustat ];then
-    sys_temp=$(/usr/bin/cpustat -A)
+if [ -x /usr/bin/cpustat ]; then
+	sys_temp=$(/usr/bin/cpustat -A)
 else
-    sys_temp=$(cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c)
+	sys_temp=$(cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c)
 fi
-sys_tempx=`echo $sys_temp | sed 's/ / /g'`
+sys_tempx=$(echo $sys_temp | sed 's/ / /g')
 
 # display info
 
-machine_model=$(cat /proc/device-tree/model|tr -d "\000")
-echo -e " Device Model: \033[93m${machine_model}\033[0m"
-printf " Architecture: \x1B[93m%s\x1B[0m" "$sys_tempx"
+machine_model=$(cat /proc/device-tree/model | tr -d "\000")
+# echo -e "  Device Model	: \033[93m${machine_model}\033[0m"
+printf "  Architecture 	: \x1B[93m%s\x1B[0m" "$sys_tempx"
 echo ""
-display " Load Average" "${load%% *}" "${critical_load}" "0" "" "${load#* }"
-printf "Uptime:  \x1B[92m%s\x1B[0m\t\t" "$time"
+display "  Load Average	" "${load%% *}" "${critical_load}" "0" "" "${load#* }"
+echo ""
+printf "  Uptime	: \x1B[92m%s\x1B[0m\t\t" "$time"
 echo ""
 
-display " Ambient Temp" "$cpu_tempx" "60" "0" ""  "°C"
-if [ -x /usr/bin/cpustat ];then
-    cpu_freq=$(/usr/bin/cpustat -F1500)
-    echo -n "Frequency:  $cpu_freq"
+display "  Ambient Temp	" "$cpu_tempx" "60" "0" "°C"
+if [ -x /usr/bin/cpustat ]; then
+	cpu_freq=$(/usr/bin/cpustat -F1500)
+echo ""
+	echo -n "  CPU Freq	: $cpu_freq"
 else
-    display "Frequency" "$cpu_freq" "1500" "0" " Mhz"  ""
+	display "CPU Freq" "$cpu_freq" "1500" "0" " Mhz" ""
 fi
 echo ""
 
-display " Memory Usage" "$memory_usage" "70" "0" "%" " of ${memory_total}MB"
-printf "IP Address:  \x1B[92m%s\x1B[0m" "$ip_address"
+display "  Memory Usage	" "$memory_usage" "70" "0" "%" " of ${memory_total}MB"
+echo ""
+printf "[0;34m│[0m IP Address	: \x1B[92m%s\x1B[0m" "$ip_address"
 #display "Swap Usage" "$swap_usage" "10" "0" "%" " of $swap_total""Mb"
 echo ""
 
-#echo "" # fixed newline
-
-display " Boot Storage" "$boot_usage" "90" "1" "%" " of $boot_total"
-display "SYS Storage" "$root_usage" "90" "1" "%" " of $root_total"
+#display " Boot Storage	" "$boot_usage" "90" "1" "%" " of $boot_total"
+#echo ""
+display "[0;34m│[0m SYS Storage	" "$root_usage" "90" "1" "%" " of $root_total"
 echo ""
 
-if [ "$data_usage" != "" ];then
-    display " Data Storage" "$data_usage" "90" "1" "%" " of $data_total"
-    echo ""
+if [ "$hdd_usage" != "" ]; then
+	display "[0;34m│[0m Ext. Storage	" "$hdd_usage" "90" "1" "%" " of $hdd_total"
+	echo ""
 fi
-if [ "$media_usage" != "" ];then
-    display " Data Storage" "$media_usage" "90" "1" "%" " of $media_total"
-    echo ""
-fi
-echo ""
 
+#if [ "$data_usage" != "" ]; then
+#	display " Data Storage" "$data_usage" "90" "1" "%" " of $data_total"
+#	echo ""
+#fi
+#if [ "$media_usage" != "" ]; then
+#	display " Data Storage" "$media_usage" "90" "1" "%" " of $media_total"
+#	echo ""
+#fi
+#echo ""
 
+echo "[0;34m└───────[0;34m─────[0;37m─────────────[0;1;34;94m───────────[0;1;30;90m─────────[0m"
