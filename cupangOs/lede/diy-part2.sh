@@ -1,12 +1,15 @@
 #!/bin/bash
 #========================================================================================================================
+# https://github.com/thecupangin/CupangOs-Lede
+# Description: Automatically Build OpenWrt for Amlogic S9xxx STB
 # Function: Diy script (After Update feeds, Modify the default IP, hostname, theme, add/remove software packages, etc.)
 # Source code repository: https://github.com/coolsnowwolf/lede / Branch: master
+# edited by robbyaprianto
 #========================================================================================================================
 
 # ------------------------------- Main source started -------------------------------
 #
-# Modify default theme（FROM uci-theme-bootstrap CHANGE TO luci-theme-material）
+# Modify default theme（FROM uci-theme-bootstrap CHANGE TO luci-theme-neobird）
 sed -i 's/luci-theme-bootstrap/luci-theme-neobird/g' ./feeds/luci/collections/luci/Makefile
 
 # Add autocore support for armvirt
@@ -30,37 +33,45 @@ sed -i "s/UTC/WIB-7/g" package/base-files/files/bin/config_generate
 
 # Modify default root's password（FROM 'password'[$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.] CHANGE TO 'your password'）
 sed -i 's/root::0:0:99999:7:::/root:$1$wOheR5zg$7LWQZUwOPIkCB8M9WoTfo1:0:0:99999:7:::/g' /etc/shadow
+popd
 
-# Replace the default software source
-# sed -i 's#openwrt.proxy.ustclug.org#mirrors.bfsu.edu.cn\\/openwrt#' package/lean/default-settings/files/zzz-default-settings
-#
+# Modify default IP（FROM 192.168.1.1 CHANGE TO 192.168.31.4）
+#sed -i 's/192.168.1.1/192.168.100.1/g' package/base-files/files/bin/config_generate
+
+# Modify default root's password（FROM 'password'[$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.] CHANGE TO 'your password'）
+# change password to root = $1$VwIN8jaz$Kj/MUD3dMwJrxEPdCJrEq.
+sed -i 's/root::0:0:99999:7:::/root:$1$VwIN8jaz$Kj/MUD3dMwJrxEPdCJrEq.:0:0:99999:7:::/g' /etc/shadow
+
+
 # ------------------------------- Main source ends -------------------------------
 
 # ------------------------------- Other started -------------------------------
 #
+#helmi-package
+git clone --depth=1 https://github.com/helmiau/helmiwrt-packages
+
 # Add luci-app-amlogic
 svn co https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic package/luci-app-amlogic
 
-# Add p7zip
-svn co https://github.com/hubutui/p7zip-lede/trunk package/p7zip
+# Add luci-app-openclash
+#git clone https://github.com/vernesong/OpenClash package/lean/luci-app-openclash
+svn co https://github.com/thecupangin/cupangOs-packages/trunk/luci-app-openclash package/luci-app-openclash
 
-# Fix runc version error
-# rm -rf ./feeds/packages/utils/runc/Makefile
-# svn export https://github.com/openwrt/packages/trunk/utils/runc/Makefile ./feeds/packages/utils/runc/Makefile
 
-# coolsnowwolf default software package replaced with Lienol related software package
-# rm -rf feeds/packages/utils/{containerd,libnetwork,runc,tini}
-# svn co https://github.com/Lienol/openwrt-packages/trunk/utils/{containerd,libnetwork,runc,tini} feeds/packages/utils
+#add tema
+git clone --dept 1 https://github.com/thinktip/luci-theme-neobird.git package/luci-theme-neobird
+svn co https://github.com/lynxnexy/lynx/trunk/luci-theme-netgear package/luci-theme-netgear
+git clone https://github.com/kenzok8/small-package package/small-package
+# Add luci-theme-argon-armygreen
+git clone https://github.com/thecupangin/luci-theme-argon_armygreen package/lean/luci-theme-argon_armygreen
+# Add luci-theme-argon
+git clone --depth=1 -b 18.06 https://github.com/jerrykuku/luci-theme-argon
+git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config
+rm -rf ../lean/luci-theme-argon
+# Add luci-app-diskman
+git clone --depth=1 https://github.com/SuLingGG/luci-app-diskman
+mkdir parted
+cp luci-app-diskman/Parted.Makefile parted/Makefile
 
-# Add third-party software packages (The entire repository)
-# git clone https://github.com/libremesh/lime-packages.git package/lime-packages
-# Add third-party software packages (Specify the package)
-# svn co https://github.com/libremesh/lime-packages/trunk/packages/{shared-state-pirania,pirania-app,pirania} package/lime-packages/packages
-# Add to compile options (Add related dependencies according to the requirements of the third-party software package Makefile)
-# sed -i "/DEFAULT_PACKAGES/ s/$/ pirania-app pirania ip6tables-mod-nat ipset shared-state-pirania uhttpd-mod-lua/" target/linux/armvirt/Makefile
-
-# Apply patch
-# git apply ../router-config/patches/{0001*,0002*}.patch --directory=feeds/luci
 #
 # ------------------------------- Other ends -------------------------------
-
