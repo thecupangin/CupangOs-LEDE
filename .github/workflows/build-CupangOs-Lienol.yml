@@ -8,8 +8,8 @@ name: Build CupangOs-Lienol-21.02
 on:
   repository_dispatch:
   workflow_dispatch:
-  #schedule:
-    #- cron: '0 9 * * 2'
+  schedule:
+    - cron: '0 9 * * 2'
 
 env:
   REPO_URL: https://github.com/Lienol/openwrt
