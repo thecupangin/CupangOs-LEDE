@@ -2,24 +2,24 @@
 # https://github.com/ophub/amlogic-s9xxx-openwrt
 # Description: Automatically Build OpenWrt for Amlogic s9xxx tv box
 # Cron: min (0 - 59) / hour (0 - 23) / day of month (1 - 31) / month (1 - 12) / day of week (0 - 6)(Sunday - Saturday)
-# Source code repository: https://github.com/coolsnowwolf/lede / Branch: master
+# Source code repository: https://github.com/openwrt/openwrt / Branch: 21.02
 #========================================================================================================================
 
-name: Build CupangOs lede
+name: Build CupangOs-openwrt-official-21.02
 
 on:
   repository_dispatch:
   workflow_dispatch:
   #schedule:
-    - cron: '0 05 * * 2'
+    #- cron: '0 17 * * 0'
 
 env:
-  REPO_URL: https://github.com/coolsnowwolf/lede
-  REPO_BRANCH: master
-  FEEDS_CONF: router-config/LEDE/feeds.conf.default
-  CONFIG_FILE: router-config/LEDE/.config
-  DIY_P1_SH: router-config/LEDE/diy-part1.sh
-  DIY_P2_SH: router-config/LEDE/diy-part2.sh
+  REPO_URL: https://github.com/openwrt/openwrt
+  REPO_BRANCH: openwrt-21.02
+  FEEDS_CONF: cupangOs/openwrt/feeds.conf.default
+  CONFIG_FILE: cupangOs/openwrt/.config
+  DIY_P1_SH: cupangOs/openwrt/diy-part1.sh
+  DIY_P2_SH: cupangOs/openwrt/diy-part2.sh
   TZ: Asia/Jakarta
 
 jobs:
@@ -100,8 +100,7 @@ jobs:
         [ -d openwrt-armvirt ] || mkdir -p openwrt-armvirt
         cp -f openwrt/bin/targets/*/*/*.tar.gz openwrt-armvirt/ && sync
         sudo chmod +x make
-        #sudo ./make -d -b s922x_s905x3_s905d -k 5.15.13_5.10.90_5.4.170
-        #sudo ./make -d -b s922x-n2_s905x2_s905_s905d-ki_s912_s912-t95z_s905x_s905w -k 5.4.170
+        sudo ./make -d -b s905x -k 5.4.178
         [ -d ipk ] || mkdir -p ipk
         cp -rf $(find openwrt/bin/packages/ -type f -name "*.ipk") ipk/ && sync
         sudo tar -czf ipk.tar.gz ipk && mv -f ipk.tar.gz out/ && sync
@@ -113,12 +112,12 @@ jobs:
       uses: ncipollo/release-action@v1
       if: steps.build.outputs.status == 'success' && !cancelled()
       with:
-        tag: openwrt_s9xxx_lede_${{ env.PACKAGED_OUTPUTDATE }}
+        tag: CupangOs-Openwrt-Official-21.02-${{ env.PACKAGED_OUTPUTDATE }}
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
         allowUpdates: true
         token: ${{ secrets.GITHUB_TOKEN }}
         body: |
-          This is CupangOs firmware for Amlogic s905x tv box
+          CupangOs-Openwrt-Official-21.02 Firmware for HG680P & B860H
           * Firmware information
           Default IP: 192.168.1.1
           Default username: root

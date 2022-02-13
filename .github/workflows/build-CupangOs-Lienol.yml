@@ -5,7 +5,7 @@
 # Source code repository: https://github.com/openwrt/openwrt / Branch: 21.02
 #========================================================================================================================
 
-name: Build CupangOs-21.02
+name: Build CupangOs-Lienol-21.02
 
 on:
   repository_dispatch:
@@ -14,12 +14,12 @@ on:
     #- cron: '0 17 * * 0'
 
 env:
-  REPO_URL: https://github.com/immortalwrt/immortalwrt
-  REPO_BRANCH: openwrt-21.02
-  FEEDS_CONF: router-config/CupangOs/feeds.conf.default
-  CONFIG_FILE: router-config/CupangOs/.config
-  DIY_P1_SH: router-config/CupangOs/diy-part1.sh
-  DIY_P2_SH: router-config/CupangOs/diy-part2.sh
+  REPO_URL: https://github.com/Lienol/openwrt
+  REPO_BRANCH: main
+  FEEDS_CONF: cupangOs/lienol/feeds.conf.default
+  CONFIG_FILE: cupangOs/lienol/.config
+  DIY_P1_SH: cupangOs/lienol/diy-part1.sh
+  DIY_P2_SH: cupangOs/lienol/diy-part2.sh
   TZ: Asia/Jakarta
 
 jobs:
@@ -100,7 +100,7 @@ jobs:
         [ -d openwrt-armvirt ] || mkdir -p openwrt-armvirt
         cp -f openwrt/bin/targets/*/*/*.tar.gz openwrt-armvirt/ && sync
         sudo chmod +x make
-        sudo ./make -d -b s905x -k 5.4.179
+        sudo ./make -d -b s905x -k 5.4.178
         [ -d ipk ] || mkdir -p ipk
         cp -rf $(find openwrt/bin/packages/ -type f -name "*.ipk") ipk/ && sync
         sudo tar -czf ipk.tar.gz ipk && mv -f ipk.tar.gz out/ && sync
@@ -112,12 +112,12 @@ jobs:
       uses: ncipollo/release-action@v1
       if: steps.build.outputs.status == 'success' && !cancelled()
       with:
-        tag: CupangOs-21.02-${{ env.PACKAGED_OUTPUTDATE }}
+        tag: CupangOs-Lienol-21.02-${{ env.PACKAGED_OUTPUTDATE }}
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
         allowUpdates: true
         token: ${{ secrets.GITHUB_TOKEN }}
         body: |
-          CupangOs-21.02 Firmware for HG680P & B860H
+          CupangOs-Lienol-21.02 Firmware for HG680P & B860H
           * Firmware information
           Default IP: 192.168.1.1
           Default username: root
