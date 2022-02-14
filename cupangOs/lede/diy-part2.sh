@@ -57,11 +57,11 @@ svn co https://github.com/thecupangin/cupangOs-packages/trunk/luci-app-openclash
 
 
 #add tema
-#git clone --dept 1 https://github.com/thinktip/luci-theme-neobird.git package/luci-theme-neobird
-#svn co https://github.com/lynxnexy/lynx/trunk/luci-theme-netgear package/luci-theme-netgear
+git clone --dept 1 https://github.com/thinktip/luci-theme-neobird.git package/luci-theme-neobird
+svn co https://github.com/lynxnexy/lynx/trunk/luci-theme-netgear package/luci-theme-netgear
 #git clone https://github.com/kenzok8/small-package package/small-package
 # Add luci-theme-argon-armygreen
-#git clone https://github.com/thecupangin/luci-theme-argon_armygreen package/lean/luci-theme-argon_armygreen
+git clone https://github.com/thecupangin/luci-theme-argon_armygreen package/lean/luci-theme-argon_armygreen
 # Add luci-theme-argon
 git clone --depth=1 -b 18.06 https://github.com/jerrykuku/luci-theme-argon
 git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config
