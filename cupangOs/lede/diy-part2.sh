@@ -1,7 +1,5 @@
 #!/bin/bash
 #========================================================================================================================
-# https://github.com/thecupangin/CupangOs-Lede
-# Description: Automatically Build OpenWrt for Amlogic S9xxx STB
 # Function: Diy script (After Update feeds, Modify the default IP, hostname, theme, add/remove software packages, etc.)
 # Source code repository: https://github.com/coolsnowwolf/lede / Branch: master
 # edited by robbyaprianto
@@ -59,11 +57,11 @@ svn co https://github.com/thecupangin/cupangOs-packages/trunk/luci-app-openclash
 
 
 #add tema
-git clone --dept 1 https://github.com/thinktip/luci-theme-neobird.git package/luci-theme-neobird
-svn co https://github.com/lynxnexy/lynx/trunk/luci-theme-netgear package/luci-theme-netgear
-git clone https://github.com/kenzok8/small-package package/small-package
+#git clone --dept 1 https://github.com/thinktip/luci-theme-neobird.git package/luci-theme-neobird
+#svn co https://github.com/lynxnexy/lynx/trunk/luci-theme-netgear package/luci-theme-netgear
+#git clone https://github.com/kenzok8/small-package package/small-package
 # Add luci-theme-argon-armygreen
-git clone https://github.com/thecupangin/luci-theme-argon_armygreen package/lean/luci-theme-argon_armygreen
+#git clone https://github.com/thecupangin/luci-theme-argon_armygreen package/lean/luci-theme-argon_armygreen
 # Add luci-theme-argon
 git clone --depth=1 -b 18.06 https://github.com/jerrykuku/luci-theme-argon
 git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config
