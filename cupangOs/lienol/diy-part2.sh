@@ -66,7 +66,7 @@ svn co https://github.com/ophub/luci-app-amlogic/trunk package/luci-app-amlogic
 svn co https://github.com/hubutui/p7zip-lede/trunk package/lean/p7zip
 
 # Add luci-app-3ginfo-lite
-svn co https://github.com/4IceG/luci-app-3ginfo-lite/trunk package/luci-app-3ginfo-lite
+#svn co https://github.com/4IceG/luci-app-3ginfo-lite/trunk package/luci-app-3ginfo-lite
 
 # oh-my-zsh
 #mkdir -p files/root
