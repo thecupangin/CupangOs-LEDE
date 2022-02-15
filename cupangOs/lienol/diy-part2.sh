@@ -39,7 +39,7 @@ sed -i "s/\/bin\/ash/\/usr\/bin\/zsh/g" package/base-files/files/etc/passwd
 
 # Set etc/openwrt_release
 sed -i "s|DISTRIB_REVISION='.*'|DISTRIB_REVISION='R$(date +%Y.%m.%d)'|g" package/base-files/files/etc/openwrt_release
-echo "DISTRIB_SOURCECODE='openwrt'" >>package/base-files/files/etc/openwrt_release
+echo "DISTRIB_SOURCECODE='immortalwrt'" >>package/base-files/files/etc/openwrt_release
 
 # Modify default IP（FROM 192.168.1.1 CHANGE TO 192.168.31.4）
 # sed -i 's/192.168.1.1/192.168.31.4/g' package/base-files/files/bin/config_generate
@@ -50,14 +50,14 @@ echo "DISTRIB_SOURCECODE='openwrt'" >>package/base-files/files/etc/openwrt_relea
 # ------------------------------- Other started -------------------------------
 #
 # Add luci-theme-argon
-git clone https://github.com/jerrykuku/luci-theme-argon.git
-git clone https://github.com/jerrykuku/luci-app-argon-config.git
+#git clone https://github.com/jerrykuku/luci-theme-argon.git
+#git clone https://github.com/jerrykuku/luci-app-argon-config.git
 
 # add vssr-plus
 svn co https://github.com/liuran001/openwrt-packages/trunk/luci-app-ssr-plus package/luci-app-ssr-plus
 
 # Add luci-theme-neobird
-svn co https://github.com/thinktip/luci-theme-neobird package/luci-theme-neobird
+#svn co https://github.com/thinktip/luci-theme-neobird package/luci-theme-neobird
 
 # Add luci-app-amlogic
 svn co https://github.com/ophub/luci-app-amlogic/trunk package/luci-app-amlogic
@@ -66,7 +66,7 @@ svn co https://github.com/ophub/luci-app-amlogic/trunk package/luci-app-amlogic
 svn co https://github.com/hubutui/p7zip-lede/trunk package/lean/p7zip
 
 # Add redsocks2
-svn co https://github.com/kenzok8/openwrt-packages/trunk/redsocks2 package/redsocks2
+#svn co https://github.com/kenzok8/openwrt-packages/trunk/redsocks2 package/redsocks2
 
 # Add luci-app-3ginfo-lite
 #svn co https://github.com/4IceG/luci-app-3ginfo-lite/trunk package/luci-app-3ginfo-lite
@@ -83,7 +83,7 @@ svn co https://github.com/kenzok8/openwrt-packages/trunk/redsocks2 package/redso
 #popd
 
 # Add autocore
-svn co https://github.com/ophub/amlogic-s9xxx-openwrt/trunk/amlogic-s9xxx/common-files/patches/autocore package/lean/autocore
+#svn co https://github.com/ophub/amlogic-s9xxx-openwrt/trunk/amlogic-s9xxx/common-files/patches/autocore package/lean/autocore
 
 # coolsnowwolf default software package replaced with Lienol related software package
 #rm -rf feeds/packages/utils/{containerd,libnetwork,runc,tini}
