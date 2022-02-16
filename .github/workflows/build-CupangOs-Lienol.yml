@@ -91,7 +91,7 @@ jobs:
         echo "FILE_DATE=$(date +"%Y.%m.%d.%H%M")" >> $GITHUB_ENV
         echo "::set-output name=status::success"
 
-    - name: Build CupangOs firmware
+    - name: Build CupangOs-Lienol firmware
       if: steps.compile.outputs.status == 'success' && !cancelled()
       id: build
       run: |
@@ -106,7 +106,7 @@ jobs:
         echo "PACKAGED_OUTPUTDATE=$(date +"%Y.%m.%d.%H%M")" >> $GITHUB_ENV
         echo "::set-output name=status::success"
 
-    - name: Upload CupangOs Firmware to Release
+    - name: Upload CupangOs-Lienol Firmware to Release
       uses: ncipollo/release-action@v1
       if: steps.build.outputs.status == 'success' && !cancelled()
       with:
