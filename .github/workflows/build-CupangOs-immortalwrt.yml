@@ -15,9 +15,9 @@ env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: openwrt-21.02
   FEEDS_CONF: cupangOs/immortalwrt/feeds.conf.default
-  CONFIG_FILE: cupangOs/immortalwrt//.config
+  CONFIG_FILE: cupangOs/immortalwrt/.config
   DIY_P1_SH: cupangOs/immortalwrt/diy-part1.sh
-  DIY_P2_SH: cupangOs/immortalwrt//diy-part2.sh
+  DIY_P2_SH: cupangOs/immortalwrt/diy-part2.sh
   TZ: Asia/Jakarta
 
 jobs:
@@ -119,7 +119,7 @@ jobs:
           * Firmware information
           Default IP: 192.168.1.1
           Default username: root
-          Default password: passwd
-          Default WIFI name: LYNX
+          Default password: none
+          Default WIFI name: CupangOs
           Default WIFI password: none
           Install to EMMC: Login to OpenWrt → System → Amlogic Service → Install OpenWrt
