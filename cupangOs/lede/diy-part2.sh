@@ -46,10 +46,14 @@ sed -i 's/root::0:0:99999:7:::/root:$1$VwIN8jaz$Kj/MUD3dMwJrxEPdCJrEq.:0:0:99999
 # ------------------------------- Other started -------------------------------
 #
 #helmi-package
+#helmi-package
 svn co https://github.com/helmiau/helmiwrt-packages/trunk/luci-app-netmon package/luci-app-netmon
 svn co https://github.com/helmiau/helmiwrt-packages/trunk/luci-app-tinyfm package/luci-app-tinyfm
 svn co https://github.com/helmiau/helmiwrt-packages/trunk/corkscrew package/corkscrew
-svn co https://github.com/helmiau/helmiwrt-packages/trunk/badvpn package/badvpn
+svn co https://github.com/helmiau/helmiwrt-packages/trunk/badvpn package/badvp
+
+# Add redsocks2
+svn co https://github.com/kenzok8/openwrt-packages/trunk/redsocks2 package/redsocks2
 
 # Add luci-app-amlogic
 svn co https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic package/luci-app-amlogic

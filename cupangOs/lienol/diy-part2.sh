@@ -68,8 +68,14 @@ svn co https://github.com/ophub/luci-app-amlogic/trunk package/luci-app-amlogic
 # Add p7zip
 svn co https://github.com/hubutui/p7zip-lede/trunk package/lean/p7zip
 
+#helmi-package
+svn co https://github.com/helmiau/helmiwrt-packages/trunk/luci-app-netmon package/luci-app-netmon
+svn co https://github.com/helmiau/helmiwrt-packages/trunk/luci-app-tinyfm package/luci-app-tinyfm
+svn co https://github.com/helmiau/helmiwrt-packages/trunk/corkscrew package/corkscrew
+svn co https://github.com/helmiau/helmiwrt-packages/trunk/badvpn package/badvp
+
 # Add redsocks2
-#svn co https://github.com/kenzok8/openwrt-packages/trunk/redsocks2 package/redsocks2
+svn co https://github.com/kenzok8/openwrt-packages/trunk/redsocks2 package/redsocks2
 
 # Add luci-app-3ginfo-lite
 #svn co https://github.com/4IceG/luci-app-3ginfo-lite/trunk package/luci-app-3ginfo-lite
