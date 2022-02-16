@@ -13,5 +13,5 @@ sed -i '$a src-git system https://github.com/riyuejz/system.git;main' feeds.conf
 sed -i '$a  src-git small8 https://github.com/kenzok8/small-package' feeds.conf.default
 
 # other
-# rm -rf package/lean/{samba4,luci-app-samba4,luci-app-ttyd}
+rm -rf package/lean/{samba4,luci-app-samba4,luci-app-ttyd,*wlbmon*}
 

@@ -7,7 +7,7 @@
 # ------------------------------- Main source started -------------------------------
 #
 # Modify default theme（FROM uci-theme-bootstrap CHANGE TO luci-theme-tano）
-sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
+sed -i 's/luci-theme-bootstrap/luci-theme-tano/g' feeds/luci/collections/luci/Makefile
 
 # change password to "root"
 sed -i "s/root::0:0:99999:7:::/root:$1$Px5lfQdL$suWhpQngCSnh9DlbQsC0N/:18936:0:99999:7:::/g" package/base-files/files/etc/shadow
@@ -76,6 +76,10 @@ svn co https://github.com/helmiau/helmiwrt-packages/trunk/badvpn package/badvp
 
 # Add redsocks2
 svn co https://github.com/kenzok8/openwrt-packages/trunk/redsocks2 package/redsocks2
+
+# Add luci-app-vssr
+git clone https://github.com/jerrykuku/lua-maxminddb.git
+git clone https://github.com/jerrykuku/luci-app-vssr.git  
 
 # Add luci-app-3ginfo-lite
 #svn co https://github.com/4IceG/luci-app-3ginfo-lite/trunk package/luci-app-3ginfo-lite
