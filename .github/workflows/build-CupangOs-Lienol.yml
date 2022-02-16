@@ -91,14 +91,14 @@ jobs:
         echo "FILE_DATE=$(date +"%Y.%m.%d.%H%M")" >> $GITHUB_ENV
         echo "::set-output name=status::success"
 
-    - name: Build CupangOs firmware
+    - name: Build CupangOs-Lienol firmware
       if: steps.compile.outputs.status == 'success' && !cancelled()
       id: build
       run: |
         [ -d openwrt-armvirt ] || mkdir -p openwrt-armvirt
         cp -f openwrt/bin/targets/*/*/*.tar.gz openwrt-armvirt/ && sync
-        sudo chmod +x make
-        sudo ./make -d -b s905x -k 5.4.178
+        sudo chmod +x makeLionel
+        sudo ./makeLionel -d -b s905x -k 5.15.22
         [ -d ipk ] || mkdir -p ipk
         cp -rf $(find openwrt/bin/packages/ -type f -name "*.ipk") ipk/ && sync
         sudo tar -czf ipk.tar.gz ipk && mv -f ipk.tar.gz out/ && sync
@@ -106,7 +106,7 @@ jobs:
         echo "PACKAGED_OUTPUTDATE=$(date +"%Y.%m.%d.%H%M")" >> $GITHUB_ENV
         echo "::set-output name=status::success"
 
-    - name: Upload CupangOs Firmware to Release
+    - name: Upload CupangOs-Lienol Firmware to Release
       uses: ncipollo/release-action@v1
       if: steps.build.outputs.status == 'success' && !cancelled()
       with:

@@ -49,8 +49,15 @@ echo "DISTRIB_SOURCECODE='immortalwrt'" >>package/base-files/files/etc/openwrt_r
 
 # ------------------------------- Other started -------------------------------
 #
+# Add luci-theme-argon
+#git clone https://github.com/jerrykuku/luci-theme-argon.git
+#git clone https://github.com/jerrykuku/luci-app-argon-config.git
+
+# add vssr-plus
+svn co https://github.com/liuran001/openwrt-packages/trunk/luci-app-ssr-plus package/luci-app-ssr-plus
+
 # Add luci-theme-neobird
-svn co https://github.com/thinktip/luci-theme-neobird /package/luci-theme-neobird
+#svn co https://github.com/thinktip/luci-theme-neobird package/luci-theme-neobird
 
 # Add luci-app-amlogic
 svn co https://github.com/ophub/luci-app-amlogic/trunk package/luci-app-amlogic
@@ -58,25 +65,28 @@ svn co https://github.com/ophub/luci-app-amlogic/trunk package/luci-app-amlogic
 # Add p7zip
 svn co https://github.com/hubutui/p7zip-lede/trunk package/lean/p7zip
 
+# Add redsocks2
+#svn co https://github.com/kenzok8/openwrt-packages/trunk/redsocks2 package/redsocks2
+
 # Add luci-app-3ginfo-lite
-svn co https://github.com/4IceG/luci-app-3ginfo-lite/trunk package/luci-app-3ginfo-lite
+#svn co https://github.com/4IceG/luci-app-3ginfo-lite/trunk package/luci-app-3ginfo-lite
 
 # oh-my-zsh
-mkdir -p files/root
-pushd files/root
-git clone https://github.com/robbyrussell/oh-my-zsh ./.oh-my-zsh
-git clone https://github.com/zsh-users/zsh-autosuggestions ./.oh-my-zsh/custom/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ./.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-git clone https://github.com/zsh-users/zsh-completions ./.oh-my-zsh/custom/plugins/zsh-completions
-cp $GITHUB_WORKSPACE/amlogic-s9xxx/common-files/patches/zsh/.zshrc .
-cp $GITHUB_WORKSPACE/amlogic-s9xxx/common-files/patches/zsh/example.zsh ./.oh-my-zsh/custom/example.zsh
-popd
+#mkdir -p files/root
+#pushd files/root
+#git clone https://github.com/robbyrussell/oh-my-zsh ./.oh-my-zsh
+#git clone https://github.com/zsh-users/zsh-autosuggestions ./.oh-my-zsh/custom/plugins/zsh-autosuggestions
+#git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ./.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+#git clone https://github.com/zsh-users/zsh-completions ./.oh-my-zsh/custom/plugins/zsh-completions
+#cp $GITHUB_WORKSPACE/amlogic-s9xxx/common-files/patches/zsh/.zshrc .
+#cp $GITHUB_WORKSPACE/amlogic-s9xxx/common-files/patches/zsh/example.zsh ./.oh-my-zsh/custom/example.zsh
+#popd
 
 # Add autocore
-# svn co https://github.com/ophub/amlogic-s9xxx-openwrt/trunk/amlogic-s9xxx/common-files/patches/autocore package/lean/autocore
+#svn co https://github.com/ophub/amlogic-s9xxx-openwrt/trunk/amlogic-s9xxx/common-files/patches/autocore package/lean/autocore
 
 # coolsnowwolf default software package replaced with Lienol related software package
-# rm -rf feeds/packages/utils/{containerd,libnetwork,runc,tini}
+#rm -rf feeds/packages/utils/{containerd,libnetwork,runc,tini}
 # svn co https://github.com/Lienol/openwrt-packages/trunk/utils/{containerd,libnetwork,runc,tini} feeds/packages/utils
 
 # Add third-party software packages (The entire repository)
