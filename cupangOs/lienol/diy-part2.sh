@@ -50,8 +50,11 @@ echo "DISTRIB_SOURCECODE='immortalwrt'" >>package/base-files/files/etc/openwrt_r
 # ------------------------------- Other started -------------------------------
 #
 # Add luci-theme-argon
-#git clone https://github.com/jerrykuku/luci-theme-argon.git
-#git clone https://github.com/jerrykuku/luci-app-argon-config.git
+git clone https://github.com/jerrykuku/luci-theme-argon.git
+git clone https://github.com/jerrykuku/luci-app-argon-config.git
+
+# rooter system
+git clone https://github.com/ofmodemsandmen/RooterSource source
 
 # add vssr-plus
 svn co https://github.com/liuran001/openwrt-packages/trunk/luci-app-ssr-plus package/luci-app-ssr-plus

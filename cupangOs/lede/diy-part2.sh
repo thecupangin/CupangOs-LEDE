@@ -46,7 +46,10 @@ sed -i 's/root::0:0:99999:7:::/root:$1$VwIN8jaz$Kj/MUD3dMwJrxEPdCJrEq.:0:0:99999
 # ------------------------------- Other started -------------------------------
 #
 #helmi-package
-git clone --depth=1 https://github.com/helmiau/helmiwrt-packages
+svn co https://github.com/helmiau/helmiwrt-packages/trunk/luci-app-netmon package/luci-app-netmon
+svn co https://github.com/helmiau/helmiwrt-packages/trunk/luci-app-tinyfm package/luci-app-tinyfm
+svn co https://github.com/helmiau/helmiwrt-packages/trunk/corkscrew package/corkscrew
+svn co https://github.com/helmiau/helmiwrt-packages/trunk/badvpn package/badvpn
 
 # Add luci-app-amlogic
 svn co https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic package/luci-app-amlogic
@@ -55,6 +58,8 @@ svn co https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic package/
 #git clone https://github.com/vernesong/OpenClash package/lean/luci-app-openclash
 svn co https://github.com/thecupangin/cupangOs-packages/trunk/luci-app-openclash package/luci-app-openclash
 
+# rooter system
+git clone https://github.com/ofmodemsandmen/RooterSource source
 
 #add tema
 git clone --dept 1 https://github.com/thinktip/luci-theme-neobird.git package/luci-theme-neobird
