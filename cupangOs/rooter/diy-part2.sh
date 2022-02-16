@@ -7,10 +7,10 @@
 # ------------------------------- Main source started -------------------------------
 #
 # Modify default theme（FROM uci-theme-bootstrap CHANGE TO luci-theme-tano）
-sed -i 's/luci-theme-bootstrap/luci-theme-tano/g' feeds/luci/collections/luci/Makefile
+#sed -i 's/luci-theme-bootstrap/luci-theme-bootstrap/g' feeds/luci/collections/luci/Makefile
 
 # change password to "root"
-sed -i "s/root::0:0:99999:7:::/root:$1$Px5lfQdL$suWhpQngCSnh9DlbQsC0N/:18936:0:99999:7:::/g" package/base-files/files/etc/shadow
+#sed -i "s/root::0:0:99999:7:::/root:$1$Px5lfQdL$suWhpQngCSnh9DlbQsC0N/:18936:0:99999:7:::/g" package/base-files/files/etc/shadow
 
 # change ssid
 sed -i "s/OpenWrt/CupangOs/g" package/kernel/mac80211/files/lib/wifi/mac80211.sh
@@ -54,11 +54,11 @@ echo "DISTRIB_SOURCECODE='openwrt'" >>package/base-files/files/etc/openwrt_relea
 git clone https://github.com/jerrykuku/luci-theme-argon.git
 git clone https://github.com/jerrykuku/luci-app-argon-config.git
 
+git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
+rm -rf package/helloworld/luci-app-ssr-plus
+
 # rooter system
 git clone https://github.com/ofmodemsandmen/RooterSource source
-
-# add vssr-plus
-svn co https://github.com/liuran001/openwrt-packages/trunk/luci-app-ssr-plus package/luci-app-ssr-plus
 
 # Add luci-theme-neobird
 #svn co https://github.com/thinktip/luci-theme-neobird package/luci-theme-neobird
