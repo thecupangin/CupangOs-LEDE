@@ -16,17 +16,18 @@ sed -i "s/root::0:0:99999:7:::/root:$1$Px5lfQdL$suWhpQngCSnh9DlbQsC0N/:18936:0:9
 sed -i "s/OpenWrt/CupangOs/g" package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
 # change hostname
-sed -i "s/ImmortalWrt/CupangOs/g" package/base-files/files/bin/config_generate
+sed -i "s/ImmortalWrt/CupangOs.Rooter/g" package/base-files/files/bin/config_generate
+
+# change timezone
+sed -i -e "s/UTC/WIB-7/g" package/base-files/files/bin/config_generate
 
 # change banner
-rm -rf ./package/emortal/default-settings/files/openwrt_banner
+rm -rf ./package/base-files/files/etc/banner
 svn export https://github.com/thecupangin/CupangOs-LEDE/trunk/amlogic-s9xxx/common-files/files/etc/banner package/base-files/files/etc/banner
 
 # change main language
-sed -i -e "s/zh_cn/en/g" package/default-settings/files/zzz-default-settings
+#sed -i -e "s/zh_cn/en/g" package/default-settings/files/zzz-default-settings
 
-# change timezone
-sed -i -e "s/CST-8/WIB-7/g" -e "s/Shanghai/Jakarta/g" package/default-settings/files/zzz-default-settings
 
 # change shell
 sed -i "s/\/bin\/ash/\/usr\/bin\/zsh/g" package/base-files/files/etc/passwd
@@ -39,7 +40,7 @@ sed -i "s/\/bin\/ash/\/usr\/bin\/zsh/g" package/base-files/files/etc/passwd
 
 # Set etc/openwrt_release
 sed -i "s|DISTRIB_REVISION='.*'|DISTRIB_REVISION='R$(date +%Y.%m.%d)'|g" package/base-files/files/etc/openwrt_release
-echo "DISTRIB_SOURCECODE='immortalwrt'" >>package/base-files/files/etc/openwrt_release
+echo "DISTRIB_SOURCECODE='openwrt'" >>package/base-files/files/etc/openwrt_release
 
 # Modify default IP（FROM 192.168.1.1 CHANGE TO 192.168.31.4）
 # sed -i 's/192.168.1.1/192.168.31.4/g' package/base-files/files/bin/config_generate
