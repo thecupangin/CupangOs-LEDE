@@ -16,7 +16,7 @@ sed -i 's/luci-theme-bootstrap/luci-theme-tano/g' feeds/luci/collections/luci/Ma
 sed -i "s/OpenWrt/CupangOs/g" package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
 # change hostname
-sed -i "s/ImmortalWrt/CupangOs-LEDE/g" package/base-files/files/bin/config_generate
+sed -i "s/ImmortalWrt/CupangOs-Immortalwrt/g" package/base-files/files/bin/config_generate
 
 # change banner
 rm -rf ./package/emortal/default-settings/files/openwrt_banner
