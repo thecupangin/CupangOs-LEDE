@@ -7,13 +7,14 @@
 # ------------------------------- Main source started -------------------------------
 #
 # Modify default theme（FROM uci-theme-bootstrap CHANGE TO luci-theme-tano）
-#sed -i 's/luci-theme-bootstrap/luci-theme-boo' feeds/luci/collections/luci/Makefile
+sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
 
 # change password
 #sed -i "s/root::0:0:99999:7:::/root:"'$'"1"'$'"pSFNodTy"'$'"ej92Jju6QPD9AIAuelgnr.:18993:0:99999:7:::/g" package/base-files/files/etc/shadow
 
 # change ssid
 sed -i "s/OpenWrt/CupangOs/g" package/kernel/mac80211/files/lib/wifi/mac80211.sh
+sed -i "s/disabled=1/disabled=0/g" package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
 # change hostname
 sed -i "s/OpenWrt/CupangOs/g" package/base-files/files/bin/config_generate
@@ -36,7 +37,7 @@ sed -i "s/\/bin\/ash/\/usr\/bin\/zsh/g" package/base-files/files/etc/passwd
 
 # Set etc/openwrt_release
 sed -i "s|DISTRIB_REVISION='.*'|DISTRIB_REVISION='R$(date +%Y.%m.%d)'|g" package/base-files/files/etc/openwrt_release
-echo "DISTRIB_SOURCECODE='immortalwrt'" >>package/base-files/files/etc/openwrt_release
+echo "DISTRIB_SOURCECODE='openwrt'" >>package/base-files/files/etc/openwrt_release
 
 # Modify default IP（FROM 192.168.1.1 CHANGE TO 192.168.31.4）
 # sed -i 's/192.168.1.1/192.168.31.4/g' package/base-files/files/bin/config_generate
@@ -48,6 +49,13 @@ echo "DISTRIB_SOURCECODE='immortalwrt'" >>package/base-files/files/etc/openwrt_r
 #
 # Add luci-theme-neobird
 #svn co https://github.com/thinktip/luci-theme-neobird /package/luci-theme-neobird
+
+# Add luci-theme-argon
+git clone https://github.com/jerrykuku/luci-theme-argon.git
+git clone https://github.com/jerrykuku/luci-app-argon-config.git
+
+# rooter system
+git clone https://github.com/ofmodemsandmen/RooterSource source
 
 # Add luci-app-vssr
 git clone https://github.com/jerrykuku/lua-maxminddb.git
@@ -61,6 +69,15 @@ svn co https://github.com/hubutui/p7zip-lede/trunk package/lean/p7zip
 
 # Add luci-app-3ginfo-lite
 svn co https://github.com/4IceG/luci-app-3ginfo-lite/trunk package/luci-app-3ginfo-lite
+
+#helmi-package
+svn co https://github.com/helmiau/helmiwrt-packages/trunk/luci-app-netmon package/luci-app-netmon
+svn co https://github.com/helmiau/helmiwrt-packages/trunk/luci-app-tinyfm package/luci-app-tinyfm
+svn co https://github.com/helmiau/helmiwrt-packages/trunk/corkscrew package/corkscrew
+svn co https://github.com/helmiau/helmiwrt-packages/trunk/badvpn package/badvp
+
+# Add redsocks2
+svn co https://github.com/kenzok8/openwrt-packages/trunk/redsocks2 package/redsocks2
 
 # oh-my-zsh
 mkdir -p files/root
