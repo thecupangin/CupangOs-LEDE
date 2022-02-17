@@ -76,6 +76,10 @@ svn co https://github.com/helmiau/helmiwrt-packages/trunk/luci-app-tinyfm packag
 svn co https://github.com/helmiau/helmiwrt-packages/trunk/corkscrew package/corkscrew
 svn co https://github.com/helmiau/helmiwrt-packages/trunk/badvpn package/badvp
 
+# Add Openclash
+svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/luci-app-openclash
+
+
 # Add redsocks2
 svn co https://github.com/kenzok8/openwrt-packages/trunk/redsocks2 package/redsocks2
 
