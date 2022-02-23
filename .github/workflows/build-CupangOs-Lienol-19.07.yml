@@ -14,10 +14,10 @@ on:
 env:
   REPO_URL: https://github.com/Lienol/openwrt
   REPO_BRANCH: 19.07
-  FEEDS_CONF: cupangOs/lienol/feeds.conf.default
-  CONFIG_FILE: cupangOs/lienol/.config
-  DIY_P1_SH: cupangOs/lienol/diy-part1.sh
-  DIY_P2_SH: cupangOs/lienol/diy-part2.sh
+  FEEDS_CONF: cupangOs/lienol-19.07/feeds.conf.default
+  CONFIG_FILE: cupangOs/lienol-19.07/.config
+  DIY_P1_SH: cupangOs/lienol-19.07/diy-part1.sh
+  DIY_P2_SH: cupangOs/lienol-19.07/diy-part2.sh
   #TZ: Asia/Jakarta
 
 jobs:
