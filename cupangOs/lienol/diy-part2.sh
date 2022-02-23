@@ -39,7 +39,7 @@ sed -i "s/\/bin\/ash/\/usr\/bin\/zsh/g" package/base-files/files/etc/passwd
 
 # Set etc/openwrt_release
 sed -i "s|DISTRIB_REVISION='.*'|DISTRIB_REVISION='R$(date +%Y.%m.%d)'|g" package/base-files/files/etc/openwrt_release
-echo "DISTRIB_SOURCECODE='immortalwrt'" >>package/base-files/files/etc/openwrt_release
+echo "DISTRIB_SOURCECODE='openwrt'" >>package/base-files/files/etc/openwrt_release
 
 # Modify default IP（FROM 192.168.1.1 CHANGE TO 192.168.31.4）
 # sed -i 's/192.168.1.1/192.168.31.4/g' package/base-files/files/bin/config_generate
@@ -54,10 +54,10 @@ git clone https://github.com/jerrykuku/luci-theme-argon.git
 git clone https://github.com/jerrykuku/luci-app-argon-config.git
 
 # rooter system
-git clone https://github.com/ofmodemsandmen/RooterSource source
+#git clone https://github.com/ofmodemsandmen/RooterSource source
 
 # add vssr-plus
-svn co https://github.com/liuran001/openwrt-packages/trunk/luci-app-ssr-plus package/luci-app-ssr-plus
+#svn co https://github.com/liuran001/openwrt-packages/trunk/luci-app-ssr-plus package/luci-app-ssr-plus
 
 # Add luci-theme-neobird
 #svn co https://github.com/thinktip/luci-theme-neobird package/luci-theme-neobird
@@ -67,6 +67,9 @@ svn co https://github.com/ophub/luci-app-amlogic/trunk package/luci-app-amlogic
 
 # Add p7zip
 svn co https://github.com/hubutui/p7zip-lede/trunk package/lean/p7zip
+
+#openclash
+svn co https://github.com/vernesong/OpenClash//trunk/luci-app-openclash package/luci-app-openclash
 
 #helmi-package
 svn co https://github.com/helmiau/helmiwrt-packages/trunk/luci-app-netmon package/luci-app-netmon

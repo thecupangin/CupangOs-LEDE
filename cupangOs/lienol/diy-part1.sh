@@ -13,7 +13,8 @@ sed -i '$a src-git system https://github.com/riyuejz/system.git;main' feeds.conf
 #sed -i '$a src-git small https://github.com/kenzok78/small-package' feeds.conf.default
 #sed -i '$a src-git cupangOs_packages https://github.com/thecupangin/cupangOs-packages' feeds.conf.default
 sed -i '$a src-git helloworld https://github.com/fw876/helloworld' feeds.conf.default
-sed -i '$a src-git passwall https://github.com/xiaorouji/openwrt-passwall' feeds.conf.default
+#sed -i '$a src-git passwall https://github.com/xiaorouji/openwrt-passwall' feeds.conf.default
+sed -i '$a src-git coolsnowwolf https://github.com/coolsnowwolf/packages.git;master' feeds.conf.default
 
 
 # other
