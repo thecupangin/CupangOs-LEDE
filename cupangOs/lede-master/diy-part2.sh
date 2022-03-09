@@ -75,8 +75,8 @@ svn co https://github.com/immortalwrt/packages/trunk/utils/coremark feeds/packag
 git clone https://github.com/helmiau/helmiwrt-packages.git package/new/libernet
 rm -rf ./feeds/packages/new/libernet/*openclash*
 rm -rf ./feeds/packages/new/libernet/*tinyfm*
-svn co https://github.com/thecupangin/cupangOs-packages/trunk/luci-app-openclash package/new/libernet/luci-app-openclash
-svn co https://github.com/thecupangin/cupangOs-packages/trunk/luci-app-tinyfm package/new/libernet/luci-app-tinyfm
+svn co https://github.com/thecupangin/kiaOs-packages/trunk/luci-app-openclash package/new/libernet/luci-app-openclash
+svn co https://github.com/thecupangin/kiaOs-packages/trunk/luci-app-tinyfm package/new/libernet/luci-app-tinyfm
 
 # kengzo
 git clone https://github.com/kenzok8/openwrt-packages package/new/kengzo
