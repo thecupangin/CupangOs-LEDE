@@ -73,7 +73,8 @@ svn co https://github.com/immortalwrt/packages/trunk/utils/coremark feeds/packag
 
 # add helmiwrt-packages
 #git clone https://github.com/helmiau/helmiwrt-packages.git package/new/libernet
-https://github.com/robbyaprianto/kiaOs-packages.git package/new/libernet
+git clone https://github.com/robbyaprianto/kiaOs-packages.git package/new/libernet
+svn co https://github.com/xiaorouji/openwrt-passwall2/trunk/luci-app-passwall2 package/new/luci-app-passwall2
 #rm -rf ./feeds/packages/new/libernet/*openclash*
 #rm -rf ./feeds/packages/new/libernet/*tinyfm*
 #rm -rf ./feeds/packages/new/libernet/*netmon*
