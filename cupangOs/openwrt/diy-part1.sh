@@ -14,7 +14,7 @@ sed -i '$a src-git system https://github.com/riyuejz/system.git;main' feeds.conf
 # sed -i 's/\"#src-git\"/\"src-git\"/g' feeds.conf.default
 
 sed -i '$a src-git helloworld https://github.com/fw876/helloworld' feeds.conf.default
-sed -i '$a src-git passwall https://github.com/xiaorouji/openwrt-passwall' feeds.conf.default
+#sed -i '$a src-git passwall https://github.com/xiaorouji/openwrt-passwall' feeds.conf.default
 
 
 # other
